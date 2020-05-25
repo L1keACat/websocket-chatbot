@@ -33,7 +33,7 @@ public class ChatController {
     @MessageMapping("/chat.sendMessage")
     public void sendMessage(@Payload Message chatMessage) throws IOException, JSONException {
         messageService.add(chatMessage);
-        template.convertAndSend("/topic/public/"+chatMessage.getSender(), chatMessage);
+        template.convertAndSend("/topic/public/" + chatMessage.getSender(), chatMessage);
 
         Message botAnswer = new Message();
         botAnswer.setContent(bot.answer(chatMessage.getContent(), chatMessage.getSender(), messageService, userService));
@@ -41,7 +41,7 @@ public class ChatController {
         botAnswer.setType(Message.MessageType.CHAT);
         botAnswer.setUserName(chatMessage.getSender());
         messageService.add(botAnswer);
-        template.convertAndSend("/topic/public/"+chatMessage.getSender(), botAnswer);
+        template.convertAndSend("/topic/public/" + chatMessage.getSender(), botAnswer);
     }
 
     @MessageMapping("/chat.addUser")
@@ -54,10 +54,10 @@ public class ChatController {
             userService.add(user);
         }
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-        template.convertAndSend("/topic/public/"+chatMessage.getSender(), chatMessage);
+        template.convertAndSend("/topic/public/" + chatMessage.getSender(), chatMessage);
         messageService.add(chatMessage);
         Message welcomemes = bot.start();
-        template.convertAndSend("/topic/public/"+chatMessage.getSender(), welcomemes);
+        template.convertAndSend("/topic/public/" + chatMessage.getSender(), welcomemes);
         welcomemes.setUserName(chatMessage.getSender());
         messageService.add(welcomemes);
     }

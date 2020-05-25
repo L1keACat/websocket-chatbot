@@ -1,0 +1,15 @@
+<div #usernamePage id="username-page">
+  <div class="username-page-container">
+    <h1 class="title">Type your username</h1>
+    <form #usernameForm id="usernameForm" name="usernameForm">
+      <div class="form-group">
+        <form>
+          <input type="text" #name id="name" placeholder="Username" autocomplete="off" class="form-control"/>
+        </form>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="accent username-submit" (click)="connect(name.value)">Start Chatting</button>
+      </div>
+    </form>
+  </div>
+</div>

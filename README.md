@@ -25,7 +25,10 @@ In order to build the project itself run:
 
 Go to angular-client folder and run:
 ```
-ng serve
+npm install
+```
+```
+ng serve --open
 ```
 Access http://localhost:4200
 

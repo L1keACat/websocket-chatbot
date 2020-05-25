@@ -1,0 +1,63 @@
+<div class="container-fluid">
+<div #chatPage id="chat-page">
+  <div class="chat-container">
+    <div class="chat-header">
+      <p class="current">Logged in as <span id="current-user">{{username}}</span></p>
+      <button class="current logout-button" (click)="disconnect()">Logout</button>
+    </div>
+    <div #connecting class="connecting">
+      Connecting...
+    </div>
+    <ul #messageArea id="messageArea">
+      <ng-container *ngFor="let message of messages">
+        <ng-container *ngIf="message.content!=null; else elseBlock">
+          <li class="chat-message">
+            <i style="background-color: rgb(57, 187, 176);">{{message.sender[0]}}</i>
+            <span>{{message.sender}}</span>
+            <ng-container *ngIf="!message.content.includes('24-hour forecast for') && message.content.includes('icon:'); else elseBlock">
+              <p>
+                <span style="color: rgba(255, 255, 255, 0.8); white-space: pre-line; font-weight: 400; display: block;">
+                  {{message.content.substring(0, message.content.indexOf(':') + 1)}}
+                </span>
+                <img style="height: 4em;" src="{{'http://openweathermap.org/img/wn/' + message.content.substring(message.content.indexOf('icon:') + 6, message.content.indexOf('icon:') + 9) + '@2x.png'}}">
+                {{message.content.substring(message.content.indexOf('icon:') + 11)}}
+              </p>
+            </ng-container>
+            <ng-template #elseBlock>
+              <p>{{message.content}}</p>
+            </ng-template>
+          </li>
+        </ng-container>
+        <ng-template #elseBlock>
+          <ng-container *ngIf='message.type=="JOIN"; else elseBlock'>
+            <li class="event-message">
+              <p>{{message.sender}} joined!</p>
+            </li>
+          </ng-container>
+          <ng-template #elseBlock>
+            <li class="event-message">
+              <p>{{message.sender}} left.</p>
+            </li>
+          </ng-template>
+        </ng-template>
+      </ng-container>
+    </ul>
+    <p #typing class="typing">Bot is typing...</p>
+    <form id="messageForm" name="messageForm">
+      <div class="form-group">
+        <div class="input-group clearfix">
+          <input type="text" #message id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
+          <button type="submit" class="primary" (click)="sendMessage(message.value)">Send</button>
+        </div>
+        <div #buttonGroup class="button-group clearfix">
+          <ng-container *ngFor="let bookmark of bookmarks">
+            <p>
+              <button class="button-message">{{bookmark}}</button>
+            </p>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
